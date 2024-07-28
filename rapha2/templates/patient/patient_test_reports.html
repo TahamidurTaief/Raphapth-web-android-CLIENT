@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+{% include "include/patient/sidebar.html" %}
+
+<div class="page-wrapper">
+    {% include "include/messages.html" %}
+    <div class="content container-fluid">
+        <div class="page-header">
+            <div class="row align-items-center">
+                <div class="col">
+                    <h3 class="page-title">Test Report</h3>
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url 'patient_dashboard' %}">Dashboard</a></li>
+                        <li class="breadcrumb-item active">Tests Report</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="table-responsive">
+                    {% if test_reports %}
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Test Name</th>
+                    <th>Doctor</th>
+                    <th>Result</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for report in test_reports %}
+                    <tr>
+                        <td>
+                            {% for test in report.test.all %}
+                                {{ test.name }}{% if not forloop.last %}, {% endif %}
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% if report.doctor %}
+                                {{ report.doctor.user.username }}
+                            {% else %}
+                                Admin
+                            {% endif %}
+                        </td>
+                        <td>{{ report.result }}</td>
+                        <td>{{ report.date|date:"d M Y H:i" }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No test reports available.</p>
+    {% endif %}
+                </div>
+            </div>
+        
+            
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

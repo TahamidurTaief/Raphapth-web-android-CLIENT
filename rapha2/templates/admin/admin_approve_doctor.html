@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block content %}
+{% include "include/admin/sidebar.html" %}
+
+
+
+
+<div class="page-wrapper">
+    <div class="content container-fluid">
+        {% include "include/messages.html" %}
+        <div class="page-header">
+            <div class="row align-items-center">
+                <div class="col">
+                    <h3 class="page-title">Approve Doctors</h3>
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url 'AdminDashboard' %}">Dashboard</a></li>
+                        <li class="breadcrumb-item active">Approve Doctors</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card card-table">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover table-center mb-0">
+                                <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Gender</th>
+                                    <th>Mobile Number</th>
+                                    <th>Address</th>
+                                    <th class="text-right">Action</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for doctor in doctors %}
+                                <tr>
+                                    <td>{{ doctor.id }}</td>
+                                    <td>{{ doctor.user.first_name }} {{ doctor.user.first_name }}</td>
+                                    <td>{{ doctor.department }}</td>
+                                    <td>{{ doctor.get_gender_display }}</td>
+                                    <td>{{ doctor.mobile }}</td>
+                                    <td>{{ doctor.address }}</td>
+                                    <td class="text-right">
+                                        <div class="actions">
+                                            <a href="{% url 'approve_doctor' doctor.id %}" class="btn btn-sm bg-success-light mr-2">
+                                                <i class="fas fa-check"></i>
+                                            </a>
+                                            <a href="{% url 'reject_doctor' doctor.id %}" class="btn btn-sm bg-danger-light">
+                                                <i class="fas fa-times"></i>
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+{% endblock content %}

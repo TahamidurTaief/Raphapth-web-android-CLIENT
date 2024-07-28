@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+{% include "include/patient/sidebar.html" %}
+
+
+
+<div class="page-wrapper">
+        {% include "include/messages.html" %}
+        <div class="content container-fluid">
+            <div class="page-header">
+                <div class="row align-items-center">
+                    <div class="col">
+                        <h3 class="page-title">Medicine Shop</h3>
+                        <ul class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="{% url 'patient_dashboard' %}">Dashboard</a></li>
+                            <li class="breadcrumb-item active">Medicine Shop</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="container mt-5">
+                <div class="row">
+                    {% for medicine in medicines %}
+                    <div class="col-md-4 mt-4">
+                        <div class="card mb-4 shadow-sm">
+                            <img src="{{ medicine.image.url }}" class="card-img-top" alt="{{ medicine.name }}" style="height: 200px; object-fit: cover;">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ medicine.name }}</h5>
+                                <p class="card-text">{{ medicine.description }}</p>
+                                <p class="card-text"><strong>Price:</strong> {{ medicine.price }}</p>
+                                <a href="{% url 'purchase_medicine' medicine.pk %}" class="btn btn-success btn-block">Purchase</a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>  
+
+{% endblock %}

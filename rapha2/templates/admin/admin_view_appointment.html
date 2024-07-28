@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+{% include "include/admin/sidebar.html" %}
+
+<div class="page-wrapper">
+    {% include "include/messages.html" %}
+    <div class="content container-fluid">
+        <div class="page-header">
+            <div class="row align-items-center">
+                <div class="col">
+                    <h3 class="page-title">Appointments</h3>
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url 'AdminDashboard' %}">Dashboard</a></li>
+                        <li class="breadcrumb-item active">Appointments</li>
+                    </ul>
+                </div>
+                <div class="col-auto">
+                    <a href="{% url 'admin_add_appointment_view' %}" class="btn btn-success">
+                        <i class="fa fa-plus"></i> Add Appointment
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Doctor Name</th>
+                                        <th>Patient Name</th>
+                                        <th>Appointment Date</th>
+                                        <th>Description</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for appointment in appointments %}
+                                        <tr>
+                                            <td>{{ appointment.id }}</td>
+                                            <td>{{ appointment.patientId.user.first_name }} {{ appointment.patientId.user.last_name }}</td>
+                                            <td>{{ appointment.doctorId.user.first_name }} {{ appointment.doctorId.user.last_name }}</td>
+                                            <td>{{ appointment.appointmentDate }}</td>
+                                            <td>{{ appointment.description }}</td>
+                                            <td>
+                                                {% if appointment.status %}
+                                                    <span class="badge badge-success">Confirmed</span>
+                                                {% else %}
+                                                    <span class="badge badge-warning">Pending</span>
+                                                {% endif %}
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+    </div>
+</div>
+
+{% endblock content %}

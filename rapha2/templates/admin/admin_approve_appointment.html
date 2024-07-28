@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+{% include "include/admin/sidebar.html" %}
+
+<div class="page-wrapper">
+    {% include "include/messages.html" %}
+    <div class="content container-fluid">
+        <div class="page-header">
+            <div class="row align-items-center">
+                <div class="col">
+                    <h3 class="page-title">Approve Appointments</h3>
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url 'AdminDashboard' %}">Dashboard</a></li>
+                        <li class="breadcrumb-item active">Approve Appointments</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Doctor Name</th>
+                                        <th>Patient Name</th>
+                                        <th>Appointment Date</th>
+                                        <th>Description</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for appointment in appointments %}
+                                        <tr>
+                                            <td>{{ appointment.id }}</td>
+                                            <td>{{ appointment.doctorName }}</td>
+                                            <td>{{ appointment.patientName }}</td>
+                                            <td>{{ appointment.appointmentDate }}</td>
+                                            <td>{{ appointment.description }}</td>
+                                            <td>
+                                                <a href="{% url 'approve_appointment' appointment.id %}" class="btn btn-success">Approve</a>
+                                                <a href="{% url 'reject_appointment' appointment.id %}" class="btn btn-danger">Reject</a>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+{% include 'include/admin/sidebar.html' %}
+
+<div class="page-wrapper">
+    {% include 'include/messages.html' %}
+    <div class="content container-fluid">
+        <div class="page-header">
+            <div class="row align-items-center">
+                <div class="col">
+                    <h3 class="page-title">Send Test Report to Patients</h3>
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url 'AdminDashboard' %}">Dashboard</a></li>
+                        <li class="breadcrumb-item active">Appointed Patients</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="table-responsive">
+                    <table class="table table-striped custom-table">
+                        <thead>
+                            <tr>
+                                <th>Patient Name</th>
+                                <th>Doctor Name</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Appointed Date</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for i in appointed_patients %}
+                            <tr>
+                                <td>{{ i.patientId.user.first_name }} {{ i.patientId.user.last_name }}</td>
+                                <td>{{ i.doctorId.user.first_name }} {{ i.doctorId.user.last_name }}</td>
+                                <td>{{ i.patientId.email }}</td>
+                                <td>{{ i.patientId.mobile }}</td>
+                                <td>{{ i.appointmentDate }}</td>
+                                <td>
+                                    <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#sendReportModal{{ i.patientId.id }}">Send Report</button>
+                                </td>
+                            </tr>
+
+                            <!-- Send Report Modal -->
+                            <div class="modal fade" id="sendReportModal{{ i.patientId.id }}" tabindex="-1" role="dialog" aria-labelledby="sendReportModalLabel{{ i.patientId.id }}" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="sendReportModalLabel{{ i.patientId.id }}">Send Test Report</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form method="post" action="{% url 'submit_test_report' %}">
+                                                {% csrf_token %}
+                                                <input type="hidden" name="patient_id" value="{{ i.patientId.id }}">
+                                                {% comment %} <input type="text" name="patient_id" value="{{ i.doctorId.id }}"> {% endcomment %}
+                                                <div class="form-group">
+                                                    <label for="doctor_id">Select Doctor</label>
+                                                    <select class="form-control" id="doctor_id" name="doctor_id" required>
+                                                        {% for doctor in doctors %}
+                                                        <option value="{{ doctor.id }}">{{ doctor.user.first_name }} {{ doctor.user.last_name }}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="test_ids">Select Tests</label>
+                                                    <select multiple class="form-control" id="test_ids" name="test_ids" required>
+                                                        {% for test in tests %}
+                                                        <option value="{{ test.id }}">{{ test.name }}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="result">Result</label>
+                                                    <textarea class="form-control" id="result" name="result" rows="4" required></textarea>
+                                                </div>
+                                                <button type="submit" class="btn btn-primary">Submit</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,239 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block content %}
+{% include "include/admin/sidebar.html" %}
+
+<div class="page-wrapper">
+   <div class="content container-fluid">
+      <div class="page-header">
+          <div class="row">
+              <div class="col-sm-12">
+                  <h3 class="page-title">Welcome {{ clinic_name }}'s Admin!</h3>
+                  <ul class="breadcrumb">
+                      <li class="breadcrumb-item active">Dashboard</li>
+                  </ul>
+              </div>
+          </div>
+      </div>
+      <div class="row">
+          <div class="col-xl-3 col-sm-6 col-12 d-flex">
+              <div class="card bg-one w-100">
+                  <div class="card-body">
+                      <div class="db-widgets d-flex justify-content-between align-items-center">
+                          <div class="db-icon">
+                              <i class="fas fa-user-graduate"></i>
+                          </div>
+                          <div class="db-info">
+                              <h3>{{ doctor_count }}</h3>
+                              <h6>Doctor</h6>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <div class="col-xl-3 col-sm-6 col-12 d-flex">
+              <div class="card bg-two w-100">
+                  <div class="card-body">
+                      <div class="db-widgets d-flex justify-content-between align-items-center">
+                          <div class="db-icon">
+                              <i class="fas fa-crown"></i>
+                          </div>
+                          <div class="db-info">
+                              <h3>{{ patient_count }}</h3>
+                              <h6>Patient</h6>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <div class="col-xl-3 col-sm-6 col-12 d-flex">
+              <div class="card bg-three w-100">
+                  <div class="card-body">
+                      <div class="db-widgets d-flex justify-content-between align-items-center">
+                          <div class="db-icon">
+                              <i class="fas fa-building"></i>
+                          </div>
+                          <div class="db-info">
+                              <h3>{{ clinic_count }}</h3>
+                              <h6>Clinics</h6>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <div class="col-xl-3 col-sm-6 col-12 d-flex">
+              <div class="card bg-four w-100">
+                  <div class="card-body">
+                      <div class="db-widgets d-flex justify-content-between align-items-center">
+                          <div class="db-icon">
+                              <i class="fas fa-file-invoice-dollar"></i>
+                          </div>
+                          <div class="db-info">
+                              <h3>{{ ccmd_clinic_count }}</h3>
+                              <h6>CCMD Clinics</h6>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+               <div class="row">
+                  <div class="col-md-12 col-lg-6">
+                     <div class="card card-chart">
+                        <div class="card-header">
+                           <div class="row align-items-center">
+                              <div class="col-6">
+                                 <h5 class="card-title">Clinic Analytics</h5>
+                              </div>
+                              
+                           </div>
+                        </div>
+                        <div class="card-body">
+                            <canvas id="piechart" style="width:100%;max-width:300px"></canvas>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="col-md-12 col-lg-6">
+                     <div class="card card-chart">
+                        <div class="card-header">
+                           <div class="row align-items-center">
+                              <div class="col-6">
+                                 <h5 class="card-title">Patient Gender</h5>
+                              </div>
+                              
+                           </div>
+                        </div>
+                        <div class="card-body">
+                            {% comment %} <div id="bar"></div> {% endcomment %}
+                            <canvas id="myChart" style="width:100%;max-width:700px"></canvas>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <div class="row">
+                  <div class="row">
+                     <div class="col-md-6 d-flex">
+                         <div class="card flex-fill">
+                             <div class="card-header">
+                                 <h5 class="card-title">Recent Approved Patients</h5>
+                             </div>
+                             <div class="card-body">
+                                 <div class="table-responsive">
+                                     <table class="table table-hover table-center">
+                                         <thead class="thead-light">
+                                             <tr>
+                                                 <th>ID</th>
+                                                 <th>Patient Name</th>
+                                                 <th class="text-center">Number</th>
+                                             </tr>
+                                         </thead>
+                                         <tbody>
+                                             {% for patient in recent_approved_patients %}
+                                             <tr>
+                                                 <td class="text-nowrap">{{ patient.id }}</td>
+                                                 <td class="text-nowrap">{{ patient.user.username }}</td>
+                                                 <td class="text-center">{{ patient.mobile }}</td>
+                                             </tr>
+                                             {% endfor %}
+                                         </tbody>
+                                     </table>
+                                 </div>
+                             </div>
+                         </div>
+                     </div>
+               
+                 
+                  
+                  <div class="col-md-6 d-flex">
+                      <div class="card flex-fill">
+                          <div class="card-header">
+                              <h5 class="card-title">Recent Appointments</h5>
+                          </div>
+                          <div class="card-body">
+                              <ul class="activity-feed">
+                                  {% for appointment in recent_appointments %}
+                                  <li class="feed-item">
+                                      <div class="feed-date">{{ appointment.current_time|date:"M d, Y" }}</div>
+                                      <span class="feed-text"><a>{{ appointment.patientName }}</a> had an appointment with <a>{{ appointment.doctorName }}</a> on <a>{{ appointment.appointmentDate|date:"M d, Y" }}</a></span>
+                                  </li>
+                                  {% endfor %}
+                              </ul>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              
+              
+               </div>
+
+         </div>
+      </div>
+
+      <script>
+        var male = {{male_patients}}
+        var female = {{female_patients}}
+        var others = {{other_patients}}
+
+        var xValues = ["Male", "Female", "Others"];
+        var yValues = [];
+        var barColors = [ "#b91d47", "#00aba9", "#2b5797"];
+
+        yValues[0] =male;
+        yValues[1] =female;
+        yValues[2] =others;
+        yValues[3] =0;
+        
+        new Chart("myChart", {
+          type: "bar",
+          data: {
+            labels: xValues,
+            datasets: [{
+              backgroundColor: barColors,
+              data: yValues
+            }]
+          },
+          options: {
+            legend: {display: false},
+            title: {
+              display: true,
+              text: "Male and Female patient chart."
+            }
+          }
+        });
+        </script>
+
+
+
+        <script>
+            var ccmd_clinic_count = {{ ccmd_clinic_count }}
+            var clinic_count = {{ clinic_count }}
+            var xValues = ["Clinic", "CCMD Clinic"];
+            var yValues = [ccmd_clinic_count, clinic_count];
+            var barColors = [
+              "#b91d47",
+              "#00aba9",
+            ];
+            
+            new Chart("piechart", {
+              type: "doughnut",
+              data: {
+                labels: xValues,
+                datasets: [{
+                  backgroundColor: barColors,
+                  data: yValues
+                }]
+              },
+              options: {
+                title: {
+                  display: true,
+                  text: "Clinic and CCMD Clinic Count."
+                }
+              }
+            });
+            </script>
+
+
+{% endblock content %}

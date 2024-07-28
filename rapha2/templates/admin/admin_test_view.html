@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+{% include "include/admin/sidebar.html" %}
+
+<div class="page-wrapper">
+    {% include "include/messages.html" %}
+    <div class="content container-fluid">
+        <div class="page-header">
+            <div class="row align-items-center">
+                <div class="col">
+                    <h3 class="page-title">Test Shop</h3>
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url 'AdminDashboard' %}">Dashboard</a></li>
+                        <li class="breadcrumb-item active">Test Shop</li>
+                    </ul>
+                </div>
+                <div class="col-auto float-right ml-auto">
+                    <a href="{% url 'test_add' %}" class="btn add-btn"><i class="fa fa-plus"></i> Add Test</a>
+                </div>
+            </div>
+        </div>
+
+        <form method="get">
+            <div class="row filter-row">
+                <div class="col-sm-6 col-md-8">
+                    <div class="form-group form-focus">
+                        <input type="text" name="q" class="form-control floating" value="{{ query }}">
+                        <label class="focus-label">Search by name or description</label>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-2">
+                    <button type="submit" class="btn btn-success btn-block"> Search </button>
+                </div>
+            </div>
+        </form>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="table-responsive">
+                    <table class="table table-striped custom-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Description</th>
+                                <th>Price</th>
+                                <th class="text-right">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for test in tests %}
+                            <tr>
+                                <td>{{ test.name }}</td>
+                                <td>{{ test.description }}</td>
+                                <td>{{ test.price }} ZAR</td>
+                                <td class="text-right">
+                                    <a href="{% url 'test_edit' test.id %}" class="btn btn-warning btn-sm">Edit</a>
+                                    <a href="{% url 'test_delete' test.id %}" class="btn btn-danger btn-sm">Delete</a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

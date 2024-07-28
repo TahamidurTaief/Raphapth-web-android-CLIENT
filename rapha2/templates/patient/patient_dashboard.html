@@ -1,0 +1,155 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block content %}
+{% include "include/patient/sidebar.html" %}
+
+
+<div class="page-wrapper">
+   <div class="content container-fluid">
+      <div class="page-header">
+          <div class="row">
+              <div class="col-sm-12">
+                  <h3 class="page-title">Welcome {{patient_name}}</h3>
+                  <ul class="breadcrumb">
+                      <li class="breadcrumb-item active">Patient Dashboard</li>
+                  </ul>
+              </div>
+          </div>
+      </div>
+      <div class="row">
+        <div class="col-xl-3 col-sm-6 col-12 d-flex">
+            <div class="card bg-one w-100">
+                <div class="card-body">
+                    <div class="db-widgets d-flex justify-content-between align-items-center">
+                        <div class="db-icon">
+                            <i class="fas fa-user-graduate"></i>
+                        </div>
+                        <div class="db-info">
+                            <h3>{{ doctor_count }}</h3>
+                            <h6>Doctor</h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-sm-6 col-12 d-flex">
+            <div class="card bg-two w-100">
+                <div class="card-body">
+                    <div class="db-widgets d-flex justify-content-between align-items-center">
+                        <div class="db-icon">
+                            <i class="fas fa-crown"></i>
+                        </div>
+                        <div class="db-info">
+                            <h3>{{ patient_count }}</h3>
+                            <h6>Patient</h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-sm-6 col-12 d-flex">
+            <div class="card bg-three w-100">
+                <div class="card-body">
+                    <div class="db-widgets d-flex justify-content-between align-items-center">
+                        <div class="db-icon">
+                            <i class="fas fa-building"></i>
+                        </div>
+                        <div class="db-info">
+                            <h3>{{ clinic_count }}</h3>
+                            <h6>Clinics</h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-sm-6 col-12 d-flex">
+            <div class="card bg-four w-100">
+                <div class="card-body">
+                    <div class="db-widgets d-flex justify-content-between align-items-center">
+                        <div class="db-icon">
+                            <i class="fas fa-file-invoice-dollar"></i>
+                        </div>
+                        <div class="db-info">
+                            <h3>{{ test_report_count }}</h3>
+                            <h6>Test Result</h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+  </div>
+
+  <div class="row">
+    <div class="col-md-6 d-flex">
+        <div class="card flex-fill">
+            <div class="card-header">
+                <h5 class="card-title">Your Test Results</h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover table-center">
+                        <thead class="thead-light">
+                            <tr>
+                                <th>ID</th>
+                                <th>Doctor</th>
+                                <th>Test</th>
+                                <th>Result</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for report in recent_test_results %}
+                            <tr>
+                                <td class="text-nowrap">{{ report.id }}</td>
+                                <td class="text-nowrap">{{ report.doctor.user.username }}</td>
+                                <td class="text-nowrap">
+                                    {% for test in report.test.all %}
+                                        {{ test.name }}{% if not forloop.last %}, {% endif %}
+                                    {% endfor %}
+                                </td>
+                                <td class="text-nowrap">{{ report.result }}</td>
+                                <td class="text-nowrap">{{ report.date|date:"M d, Y" }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6 d-flex">
+        <div class="card flex-fill">
+            <div class="card-header">
+                <h5 class="card-title">Your Appointments</h5>
+            </div>
+            <div class="card-body">
+                <ul class="activity-feed">
+                    {% for appointment in recent_appointments %}
+                    <li class="feed-item">
+                        <div class="feed-date">{{ appointment.appointmentDate|date:"M d, Y" }}</div>
+                        <span class="feed-text">
+                            <a>{{ appointment.patientName }}</a> set an appointment with <a>{{ appointment.doctorName }}</a> on <a>{{ appointment.appointmentDate|date:"M d, Y" }}</a>
+                        </span>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+              
+               </div>
+
+            </div>
+            <footer>
+               <p>Copyright © 2020 RaphaPTH.</p>
+            </footer>
+         </div>
+      </div>
+
+{% endblock content %}

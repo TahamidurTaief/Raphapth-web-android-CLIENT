@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+{% include "include/patient/sidebar.html" %}
+
+<div class="page-wrapper">
+    {% include "include/messages.html" %}
+    <div class="content container-fluid">
+        <div class="page-header">
+            <div class="row align-items-center">
+                <div class="col">
+                    <h3 class="page-title">Book Appointment</h3>
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url 'patient_dashboard' %}">Dashboard</a></li>
+                        <li class="breadcrumb-item active">Book Appointment</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-8 offset-md-2">
+                <div class="card">
+                    <div class="card-body">
+                        <form method="POST" action="{% url 'patient_book_appointment_view' %}">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label>Doctor</label>
+                                <select class="form-control" name="doctorId">
+                                    <option value="" selected>Select Doctor</option>
+                                    {% for doctor in doctors %}
+                                        <option value="{{ doctor.user.id }}">{{ doctor.user.first_name }} {{ doctor.user.last_name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Description</label>
+                                <textarea class="form-control" name="description" rows="3" required></textarea>
+                            </div>
+                            <div class="col-12 col-sm-6">
+                                <div class="form-group">
+                                    <label>Appointment Date</label>
+                                    <input type="date" name="appointmentDate" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="form-group text-center">
+                                <button type="submit" class="btn btn-success">Book Appointment</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock content %}

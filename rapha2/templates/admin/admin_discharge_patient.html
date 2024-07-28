@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+{% include "include/admin/sidebar.html" %}
+
+<div class="page-wrapper">
+    <div class="content container-fluid">
+
+        <div class="page-header">
+            <div class="row align-items-center">
+                <div class="col">
+                    <h3 class="page-title">Discharged Patients</h3>
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url 'AdminDashboard' %}">Dashboard</a></li>
+                        <li class="breadcrumb-item active">Discharged Patients</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="card card-table">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Mobile</th>
+                                    <th>Admit Date</th>
+                                    <th>Release Date</th>
+                                    <th>Assigned Doctor</th>
+                                    <th>Total Days Spent</th>
+                                    <th>Total Charges</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for patient in patients %}
+                                <tr>
+                                    <td>{{ patient.get_id }}</td>
+                                    <td>{{ patient.get_name }}</td>
+                                    <td>{{ patient.mobile }}</td>
+                                    <td>{{ patient.admitDate }}</td>
+                                    <td>{{ patient.discharge_details.releaseDate }}</td>
+                                    <td>{{ patient.get_assigned_doctor }}</td>
+                                    <td>{{ patient.discharge_details.daySpent }}</td>
+                                    <td>${{ patient.discharge_details.total }}</td>
+                                    <td>
+                                        <a href="{% url 'discharge_patient' patient.id %}" class="btn btn-primary btn-sm">Discharge</a>
+                                    </td>
+                                </tr>
+                                {% empty %}
+                                <tr>
+                                    <td colspan="9" class="text-center">No discharged patients found.</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock content %}

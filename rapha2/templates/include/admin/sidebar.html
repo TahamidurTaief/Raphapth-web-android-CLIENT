@@ -1,0 +1,110 @@
+{% load static %}
+
+<div class="sidebar" id="sidebar">
+    <div class="sidebar-inner slimscroll">
+       <div id="sidebar-menu" class="sidebar-menu">
+      <ul>
+        <li class="menu-title">
+          <span>Admin Dashboard</span>
+        </li>
+        <li class="active">
+          <a href="{% url 'AdminDashboard' %}"
+            ><i class="fas fa-tachometer-alt"></i> <span> Dashboard</span>
+          </a>
+        </li>
+        <li class="submenu">
+          <a href="#"
+            ><i class="fas fa-user-md"></i> <span> Doctor</span>
+            <span class="menu-arrow"></span
+          ></a>
+          <ul>
+            <li><a href="{% url 'viewDoctor' %}">Doctor Record</a></li>
+            <li><a href="{% url 'addDoctor' %}">Register Doctor</a></li>
+            <li>
+              <a href="{% url 'admin_approve_doctor' %}">Approve Doctor</a>
+            </li>
+            {% comment %}
+            <li><a href="edit-student.html">Doctor Specialisation</a></li>
+            {% endcomment %}
+          </ul>
+        </li>
+        <li class="submenu">
+          <a href="#"
+            ><i class="fas fa-procedures"></i> <span> Patient</span>
+            <span class="menu-arrow"></span
+          ></a>
+          <ul>
+            <li><a href="{% url 'admin-patient-list' %}">Patient Record</a></li>
+            <li><a href="{% url 'admin-add-patient' %}">Admit Patient</a></li>
+            <li>
+              <a href="{% url 'admin-approve-patient' %}">Approve Patient</a>
+            </li>
+            {% comment %}
+            <li>
+              <a href="{% url 'admin_discharge_patients' %}"
+                >Discharge Patient</a
+              >
+            </li>
+            {% endcomment %}
+          </ul>
+        </li>
+        <li class="submenu">
+          <a href="#"
+            ><i class="fas fa-calendar-check"></i> <span> Appointment</span>
+            <span class="menu-arrow"></span
+          ></a>
+          <ul>
+            <li>
+              <a href="{% url 'admin_view_appointment' %}">Appointment View</a>
+            </li>
+            <li>
+              <a href="{% url 'admin_add_appointment_view' %}"
+                >Appointment Book</a
+              >
+            </li>
+            <li>
+              <a href="{% url 'admin_approve_appointment' %}"
+                >Appointment Approve</a
+              >
+            </li>
+          </ul>
+        </li>
+        <li class="submenu">
+          <a href="#"
+            ><i class="fas fa-capsules"></i> <span> Medicine Shop</span>
+            <span class="menu-arrow"></span
+          ></a>
+          <ul>
+            <li><a href="{% url 'medicine_add' %}">Add Medicine</a></li>
+            <li>
+              <a href="{% url 'admin_medecine_shop_view' %}">View Medicine</a>
+            </li>
+            <li>
+              <a href="{% url 'view_medicine_orders' %}"
+                >View Medicine Orders</a
+              >
+            </li>
+          </ul>
+        </li>
+        <li class="submenu">
+          <a href="#"
+            ><i class="fas fa-vial"></i> <span> Tests</span>
+            <span class="menu-arrow"></span
+          ></a>
+          <ul>
+            <li><a href="{% url 'test_add' %}">Add Tests</a></li>
+            <li><a href="{% url 'admin_test_view' %}">View Tests</a></li>
+            <li>
+              <a href="{% url 'appointed_patients' %}">Tests Report Send</a>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a href="{% url 'logout' %}"
+            ><i class="fas fa-sign-out-alt"></i><span> Logout</span></a
+          >
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

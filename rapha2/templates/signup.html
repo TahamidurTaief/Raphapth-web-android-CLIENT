@@ -1,0 +1,207 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+    <title>Register</title>
+    <link rel="shortcut icon" href="{% static 'assets/img/favicon.png' %}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,500;0,600;0,700;1,400&amp;display=swap">
+    <link rel="stylesheet" href="{% static 'assets/plugins/fontawesome/css/fontawesome.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/plugins/fontawesome/css/all.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
+</head>
+
+<body>
+
+    <div class="main-wrapper login-body pt-5 pb-5">
+        <div class="login-wrapper">
+            <div class="container">
+                {% include "include/messages.html" %}
+                <div class="login-right">
+                    <div class="login-right-wrap">
+                        <h1 class="text-center">Register</h1>
+                        <p class="account-subtitle">Access to our dashboard</p>
+
+                        <div class="row">
+                            <!-- Selection Form -->
+                            <div id="selectionForm" class="col-md-4">
+                                <div class="form-group">
+                                    <label for="role">Select Role</label>
+                                    <select class="form-control" id="role">
+                                        <option value="">Select Role</option>
+                                        <option value="doctor">Doctor</option>
+                                        <option value="patient">Patient</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Doctor Registration Form -->
+                            <div class="col-md-8">
+                                <form id="doctorForm" method="POST" action="{% url 'signupDoctor' %}" enctype="multipart/form-data" style="display:none;">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="form_type" value="doctor">
+                                    <div class="form-group">
+                                        <label for="first_name">First Name</label>
+                                        <input type="text" name="first_name" class="form-control" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="last_name">Last Name</label>
+                                        <input type="text" name="last_name" class="form-control" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="username">Username</label>
+                                        <input type="text" name="username" class="form-control" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="gender">Gender</label>
+                                        <select class="form-control" name="gender" required>
+                                            <option value="M">Male</option>
+                                            <option value="F">Female</option>
+                                            <option value="O">Other</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="mobile">Mobile</label>
+                                        <input type="text" name="mobile" class="form-control" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="email">Email</label>
+                                        <input type="email" name="email" class="form-control" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="address">Address</label>
+                                        <input type="text" name="address" class="form-control" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="clinic">Clinic</label>
+                                        <select name="clinic" class="form-control" required>
+                                            <option value="">Select Clinic</option>
+                                            {% for clinic in clinics %}
+                                            <option value="{{ clinic.id }}">{{ clinic.name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="password">Password</label>
+                                        <input type="password" name="password" class="form-control" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="confirm_password">Confirm Password</label>
+                                        <input type="password" name="confirm_password" class="form-control" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="profile_pic">Profile Picture</label>
+                                        <input type="file" name="profile_pic" class="form-control-file" required>
+                                    </div>
+                                    <button type="submit" class="btn btn-success">Register as Doctor</button>
+                                </form>
+                            </div>
+
+                            <!-- Patient Registration Form -->
+                            <div class="col-md-8">
+                                <form id="patientForm" method="POST" action="{% url 'signupPatient' %}" enctype="multipart/form-data" style="display:none;">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="form_type" value="patient">
+                                    <div class="form-group">
+                                        <label for="first_name">First Name</label>
+                                        <input type="text" name="first_name" class="form-control" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="last_name">Last Name</label>
+                                        <input type="text" name="last_name" class="form-control" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="username">Username</label>
+                                        <input type="text" name="username" class="form-control" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="password">Password</label>
+                                        <input type="password" name="password" class="form-control" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="email">Email</label>
+                                        <input type="email" name="email" class="form-control" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="address">Address</label>
+                                        <input type="text" name="address" class="form-control" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="mobile">Mobile</label>
+                                        <input type="text" name="mobile" class="form-control" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="id_no">ID No</label>
+                                        <input type="text" name="id_no" class="form-control" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="clinic">Clinic</label>
+                                        <select name="clinic" class="form-control" required>
+                                            <option value="">Select Clinic</option>
+                                            {% for clinic in clinics %}
+                                            <option value="{{ clinic.id }}">{{ clinic.name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="gender">Gender</label>
+                                        <select name="gender" class="form-control" required>
+                                            <option value="M">Male</option>
+                                            <option value="F">Female</option>
+                                            <option value="O">Other</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="home_distance">Home Distance in KM(Kilometers)</label>
+                                        <input type="number" name="home_distance" class="form-control" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="profile_pic">Profile Picture</label>
+                                        <input type="file" name="profile_pic" class="form-control-file" required>
+                                    </div>
+                                    <button type="submit" class="btn btn-success">Register as Patient</button>
+                                </form>
+                            </div>
+                        </div>
+
+                        <div class="login-or">
+                            <span class="or-line"></span>
+                            <span class="span-or">or</span>
+                        </div>
+
+                        <div class="text-center dont-have">Already have an account? <a href="/login">Login</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-X3lKJ30qiToR+GU5d9RtoIJsEZu8s+3uUPdA/wq4cs0L+XHG8TT8MwIRyU0Ml26j" crossorigin="anonymous"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#role').change(function () {
+                var selectedRole = $(this).val();
+                if (selectedRole === 'doctor') {
+                    $('#doctorForm').show();
+                    $('#patientForm').hide();
+                } else if (selectedRole === 'patient') {
+                    $('#doctorForm').hide();
+                    $('#patientForm').show();
+                } else {
+                    $('#doctorForm').hide();
+                    $('#patientForm').hide();
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

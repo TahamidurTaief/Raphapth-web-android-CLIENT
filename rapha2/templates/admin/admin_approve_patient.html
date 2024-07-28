@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+{% include "include/admin/sidebar.html" %}
+
+<div class="page-wrapper">
+    <div class="content container-fluid">
+
+        <div class="page-header">
+            <div class="row align-items-center">
+                <div class="col">
+                    <h3 class="page-title">Approve Patients</h3>
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url 'AdminDashboard' %}">Dashboard</a></li>
+                        <li class="breadcrumb-item active">Approve Patients</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        {% if patients %}
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Name</th>
+                                            <th>Profile Pic</th>
+                                            <th>Address</th>
+                                            <th>Mobile</th>
+                                            <th>Symptoms</th>
+                                            <th>Assigned Doctor ID</th>
+                                            <th>Clinic</th>
+                                            <th>Gender</th>
+                                            <th>Home Distance</th>
+                                            <th>Status</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for patient in patients %}
+                                            <tr>
+                                                <td>{{ patient.id }}</td>
+                                                <td>{{ patient.get_name }}</td>
+                                                <td>
+                                                    <img class="avatar-img rounded-circle" src="{% if patient.profile_pic %}{{ patient.profile_pic.url }}{% else %}{% static 'assets/img/patient_profile_dummy.png' %}{% endif %}" alt="User Image">
+                                                </td>
+                                                <td>{{ patient.address }}</td>
+                                                <td>{{ patient.mobile }}</td>
+                                                <td>{{ patient.symptoms }}</td>
+                                                <td>{{ patient.assignedDoctorId }}</td>
+                                                <td>{{ patient.clinic.name}}</td>
+                                                <td>{{ patient.get_gender_display }}</td>
+                                                <td>{{ patient.home_distance }} KM</td>
+                                                <td>
+                                                    {% if patient.status %}
+                                                        <span class="badge bg-success">Approved</span>
+                                                    {% else %}
+                                                        <span class="badge bg-warning text-dark">Pending</span>
+                                                    {% endif %}
+                                                </td>
+                                                <td>
+                                                    <div class="btn-group">
+                                                        <a href="{% url 'admin-approve-patient' patient.id %}" class="btn btn-sm btn-success" onclick="return confirm('Approve patient {{ patient.get_name }}?')">Approve</a>
+                                                        <a href="{% url 'admin-reject-patient' patient.id %}" class="btn btn-sm btn-danger" onclick="return confirm('Reject and delete patient {{ patient.get_name }}?')">Reject & Delete</a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <p>No patients needing approval.</p>
+        {% endif %}
+
+    </div>
+</div>
+
+{% endblock content %}
